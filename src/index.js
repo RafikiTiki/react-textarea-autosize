@@ -26,6 +26,7 @@ const [onNextFrame, clearNextFrameAction] =
 export default class TextareaAutosize extends React.Component {
   static propTypes = {
     inputRef: PropTypes.func,
+    textareaInstanceRef: PropTypes.func,
     maxRows: PropTypes.number,
     minRows: PropTypes.number,
     onChange: PropTypes.func,
@@ -36,6 +37,7 @@ export default class TextareaAutosize extends React.Component {
 
   static defaultProps = {
     inputRef: noop,
+    textareaInstanceRef: noop,
     onChange: noop,
     onHeightChange: noop,
     useCacheForDOMMeasurements: false,
@@ -58,6 +60,7 @@ export default class TextareaAutosize extends React.Component {
   render() {
     let {
       inputRef: _inputRef,
+      textareaInstanceRef: _textareaInstanceRef,
       maxRows: _maxRows,
       minRows: _minRows,
       onHeightChange: _onHeightChange,
@@ -89,6 +92,7 @@ export default class TextareaAutosize extends React.Component {
   }
 
   componentDidMount() {
+    this.props.textareaInstanceRef(this);
     this._resizeComponent();
     // Working around Firefox bug which runs resize listeners even when other JS is running at the same moment
     // causing competing rerenders (due to setState in the listener) in React.
